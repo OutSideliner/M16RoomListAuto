@@ -1,0 +1,39 @@
+// ==UserScript==
+// @name         M16 방 목록 자동 업데이트
+// @namespace    http://tampermonkey.net/
+// @version      2024-02-05
+// @description  try to take over the world!
+// @author       You
+// @match        https://m16tool.xyz/Home/RoomList
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=m16tool.xyz
+// @grant        none
+// ==/UserScript==
+// 맵이름 초기입력
+$('input[name=MapName]').val('twrpg');
+// 업데이트 버튼 지정
+var updateButton = $('.updatebtn');
+// 업데이트 반복 버튼 추가
+updateButton.after(' <button class="btn btn-primary loopbtn" style="font-size: 15px;">⟳</button>');
+// 업데이트 반복 타이머
+var updateInterval;
+// 업데이트 반복 상태
+var loopState = true;
+(function() {
+    // 업데이트 반복 버튼 정의
+    $('.loopbtn').click(function() {
+        if (loopState) {
+            $(this).css('background-color', 'Gray');
+            updateButton.click();
+            updateInterval = setInterval(function(){
+                updateButton.click();
+            }, 5100);
+            loopState = false;
+        }
+        else {
+            $(this).css('background-color', 'rgb(0, 105, 217)');
+            clearInterval(updateInterval);
+            loopState = true;
+        }
+    });
+    $('.loopbtn').click();
+})();
